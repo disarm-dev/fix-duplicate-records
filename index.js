@@ -86,9 +86,6 @@ const run = async () => {
     const records_keep = group_records.slice(0,1)
     const records_move = group_records.slice(1)
 
-    console.log('records_keep.length', records_keep.length)
-    console.log('records_move.length', records_move.length)
-
     if (records_keep.length !== 1) {
       throw new Error('somehow - who knows - nicolai was wrong. there are no records to keep')
     } else if (records_move.length < 1) {
@@ -98,6 +95,10 @@ const run = async () => {
       const ids_to_move = records_move.map(r => r._id)
       const ids_strings = ids_to_move.map(id => id.toString())
       logger.write({move_ids: ids_strings, move_ids_count: ids_strings.length, duplicate_record_id: group._id})
+
+      console.log('group._id')
+      console.log('records_keep.length', records_keep.length)
+      console.log('records_move.length', records_move.length)
 
       try {
         await duplicate_id_records.insertMany(records_move)
