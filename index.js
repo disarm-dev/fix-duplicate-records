@@ -2,6 +2,7 @@ const md5 = require('md5')
 const MongoClient = require('mongodb').MongoClient
 const Logger = require('./logger').Logger
 const logger = new Logger()
+let BATCH_SIZE = 100
 let DRY_RUN = true
 const db_connection = 'mongodb://localhost:27017/douma_production'
 
@@ -126,7 +127,7 @@ const run = async () => {
 
   // 3. Move everything but latest in each group
   if (!DRY_RUN) {
-    const promises = duplicate_groups.slice(0,100).map(async (group) => {
+    const promises = duplicate_groups.slice(0,BATCH_SIZE).map(async (group) => {
       return await move_everything_but_latest_in_group(group)
     })
     const result = await Promise.all(promises)
@@ -155,5 +156,6 @@ const run = async () => {
   console.log('records_duplicate_ids', records_duplicate_ids)  
 }
 
+BATCH_SIZE = 100
 DRY_RUN = true
 run().then(process.exit)
