@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/mongodb": "^2.2.15",
+    "md5": "^2.2.1",
     "mongodb": "^2.2.33"
   }
 }
