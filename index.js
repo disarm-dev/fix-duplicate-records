@@ -1,6 +1,6 @@
 const md5 = require('md5')
 const MongoClient = require('mongodb').MongoClient
-const Logger = require('./Logger').Logger
+const Logger = require('./logger').Logger
 const logger = new Logger()
 let DRY_RUN = true
 const db_connection = 'mongodb://localhost:27017/douma_production'
@@ -95,7 +95,6 @@ const run = async () => {
       const ids_strings = ids_to_move.map(id => id.toString())
       logger.write({move_ids: ids_strings, move_ids_count: ids_strings.length, duplicate_record_id: group._id})
 
-
       try {
         await duplicate_id_records.insertMany(records_move)
         const result = await records.deleteMany({_id: {$in: ids_to_move}})
@@ -127,8 +126,7 @@ const run = async () => {
 
   // 3. Move everything but latest in each group
   if (!DRY_RUN) {
-    const promises = duplicate_groups.slice(0,1000).map(async (group) => {
-    // const promises = duplicate_groups.map(async (group) => {
+    const promises = duplicate_groups.slice(0,100).map(async (group) => {
       return await move_everything_but_latest_in_group(group)
     })
     const result = await Promise.all(promises)
@@ -157,5 +155,5 @@ const run = async () => {
   console.log('records_duplicate_ids', records_duplicate_ids)  
 }
 
-DRY_RUN = false
-run()
+DRY_RUN = true
+run().then(process.exit)
