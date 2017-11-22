@@ -96,7 +96,7 @@ const run = async () => {
       const ids_strings = ids_to_move.map(id => id.toString())
       logger.write({move_ids: ids_strings, move_ids_count: ids_strings.length, duplicate_record_id: group._id})
 
-      console.log('group._id')
+      console.log('group._id', group._id)
       console.log('records_keep.length', records_keep.length)
       console.log('records_move.length', records_move.length)
 
