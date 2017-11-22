@@ -86,6 +86,9 @@ const run = async () => {
     const records_keep = group_records.slice(0,1)
     const records_move = group_records.slice(1)
 
+    console.log('records_keep', records_keep)
+    console.log('records_move', records_move)
+
     if (records_keep.length !== 1) {
       throw new Error('somehow - who knows - nicolai was wrong. there are no records to keep')
     } else if (records_move.length < 1) {
